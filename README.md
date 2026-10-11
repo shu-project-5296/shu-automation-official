@@ -29,7 +29,7 @@ python -m http.server 8000
 3. Branchを `main`、フォルダーを `/(root)` に設定
 4. 保存し、公開URLを確認
 
-公開URL：`https://shuhei5296.github.io/shu-automation-official/`
+公開URL：`https://shu-project-5296.github.io/shu-automation-official/`
 
 ## 更新方法
 
