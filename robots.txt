@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shu-project-5296.github.io/shu-automation-official/sitemap.xml
