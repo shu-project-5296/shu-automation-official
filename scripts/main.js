@@ -7,6 +7,20 @@
       link.target = "_blank";
       link.rel = "noopener noreferrer";
     }
+
+    link.addEventListener("click", () => {
+      if (typeof window.gtag !== "function") return;
+      window.gtag("event", "outbound_cta_click", {
+        destination: link.dataset.link,
+        link_url: link.href,
+        link_text: link.textContent.trim().replace(/\s+/g, " ").slice(0, 100),
+        page_location: window.location.href
+      });
+      window.gtag("event", `${link.dataset.link}_click`, {
+        link_url: link.href,
+        page_location: window.location.href
+      });
+    });
   });
 
   const button = document.querySelector("[data-menu-button]");

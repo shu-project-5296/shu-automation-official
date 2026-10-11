@@ -36,6 +36,9 @@ python -m http.server 8000
 - 本文・構成：`index.html`
 - デザイン：`styles/styles.css`
 - 外部リンク：`scripts/config.js`
+- GA4測定ID：`scripts/config.js` の `analytics.measurementId`
+- GA4読み込み：`scripts/analytics.js`
+- 外部リンク計測：`scripts/main.js`（`youtube_click`、`coconala_click`、`diagnosis_click` など）
 - メニュー動作：`scripts/main.js`
 - 実績画像：`images/works/`
 - OGP画像：`images/og-image.png`
