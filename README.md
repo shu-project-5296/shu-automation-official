@@ -43,7 +43,7 @@ python -m http.server 8000
 - 無料診断の表示・計測：`scripts/diagnosis.js`
 - 無料診断の質問・結果分岐：`scripts/diagnosis-logic.js`
 - 無料診断のデザイン：`styles/diagnosis.css`
-- 無料診断の案内役画像：`images/akaogi-guide.jpg`
+- 無料診断の案内役画像：`images/akaogi-guide-cutout-v2.webp`
 - 実績画像：`images/works/`
 - OGP画像：`images/og-image.png`
 - プライバシーポリシー：`privacy.html`
