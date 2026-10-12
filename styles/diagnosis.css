@@ -13,11 +13,12 @@
 /* The guide begins as a small character-led invitation, then becomes a compact
    action so the site's primary sales controls always remain usable. */
 .diagnosis-launcher{--launcher-bottom:max(16px,env(safe-area-inset-bottom));right:max(16px,env(safe-area-inset-right));bottom:var(--launcher-bottom);transition:opacity .2s ease,transform .25s ease}
-.diagnosis-launcher.is-compact .akaogi-bubble,.diagnosis-launcher.is-compact .akaogi-placeholder img{display:none}
-.diagnosis-launcher.is-compact .akaogi-placeholder{width:auto}
-.diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-height:44px;margin:0;padding:10px 15px;font-size:.78rem}
-.diagnosis-launcher.is-obscuring{opacity:0;pointer-events:none;transform:translateY(8px)}
-.diagnosis-launcher.is-scrolling{opacity:.2;pointer-events:none}
+.diagnosis-launcher.is-compact .akaogi-bubble{display:none}
+.diagnosis-launcher.is-compact .akaogi-placeholder{width:196px;grid-template-columns:72px 124px;align-items:end;justify-items:end}
+.diagnosis-launcher.is-compact .akaogi-placeholder img{display:block;width:72px;height:auto;margin:0;object-fit:contain;object-position:center;align-self:end}
+.diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-height:42px;margin:0 0 4px -7px;padding:9px 13px;font-size:.74rem}
+.diagnosis-launcher.is-obscuring{opacity:.72;pointer-events:auto;transform:none}
+.diagnosis-launcher.is-scrolling{opacity:.58;pointer-events:auto}
 
 @media(max-width:620px){
   .diagnosis-launcher{right:max(12px,env(safe-area-inset-right));--launcher-bottom:max(14px,env(safe-area-inset-bottom));filter:drop-shadow(0 8px 16px rgba(23,35,30,.18))}
@@ -25,8 +26,11 @@
   .akaogi-placeholder{width:clamp(150px,42vw,170px);justify-items:end}
   .akaogi-placeholder img{width:clamp(90px,25vw,104px);margin-right:8px}
   .akaogi-placeholder .launcher-label{min-width:150px;min-height:42px;margin-top:-6px;padding:8px 12px;font-size:.72rem}
-  .diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-width:0;max-width:150px;padding:9px 13px;font-size:.72rem}
+  .diagnosis-launcher.is-compact .akaogi-placeholder{width:174px;grid-template-columns:64px 110px;justify-items:end}
+  .diagnosis-launcher.is-compact .akaogi-placeholder img{display:block;width:64px;height:auto;margin:0}
+  .diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-width:0;max-width:none;min-height:40px;margin:0 0 3px -7px;padding:8px 10px;font-size:.7rem}
 }
 
-@media(prefers-reduced-motion:reduce){.diagnosis-launcher{transition:none}.diagnosis-launcher.is-scrolling{opacity:1;pointer-events:auto}}
+@media(max-width:360px){.diagnosis-launcher.is-compact .akaogi-placeholder{width:164px;grid-template-columns:58px 106px}.diagnosis-launcher.is-compact .akaogi-placeholder img{width:58px}.diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{padding:8px 8px;font-size:.67rem}}
+@media(prefers-reduced-motion:reduce){.diagnosis-launcher{transition:none}.diagnosis-launcher.is-scrolling{opacity:.72;pointer-events:auto}}
 @media(max-width:620px){.hero h1{font-size:clamp(2rem,9.3vw,2.4rem);letter-spacing:-.055em}.hero h1 span{display:inline-block}}

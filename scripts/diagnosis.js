@@ -3,6 +3,7 @@
   const dialog = document.querySelector("[data-diagnosis-dialog]");
   const panel = document.querySelector("[data-diagnosis-panel]");
   const launcher = document.querySelector("[data-diagnosis-launcher]");
+  const footer = document.querySelector(".site-footer");
   if (!logic || !dialog || !panel || !launcher) return;
 
   const stateKey = "shu-diagnosis-state-v1";
@@ -100,6 +101,14 @@
   }
   function protectPageActions() {
     if (launcher.hidden || dialog.open) return;
+    const baseBottom = innerWidth <= 620 ? 14 : 16;
+    if (footer) {
+      const footerRect = footer.getBoundingClientRect();
+      const visibleFooterHeight = Math.max(0, innerHeight - footerRect.top);
+      const maxBottom = Math.max(baseBottom, innerHeight - launcher.offsetHeight - 12);
+      const safeBottom = Math.min(Math.max(baseBottom, visibleFooterHeight + 12), maxBottom);
+      launcher.style.setProperty("--launcher-bottom", `${safeBottom}px`);
+    }
     launcher.classList.remove("is-obscuring");
     const launcherRect = launcher.getBoundingClientRect();
     const actions = [...document.querySelectorAll(".hero .button, .site-header a, .site-header button, .contact-card a, .site-footer a")]
