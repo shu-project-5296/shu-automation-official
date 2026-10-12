@@ -38,13 +38,21 @@ python -m http.server 8000
 - 外部リンク：`scripts/config.js`
 - GA4測定ID：`scripts/config.js` の `analytics.measurementId`
 - GA4読み込み：`scripts/analytics.js`
-- 外部リンク計測：`scripts/main.js`（`youtube_click`、`coconala_click`、`diagnosis_click` など）
+- 外部リンク計測：`scripts/main.js`（`youtube_click`、`coconala_click` など）
 - メニュー動作：`scripts/main.js`
+- 無料診断の表示・計測：`scripts/diagnosis.js`
+- 無料診断の質問・結果分岐：`scripts/diagnosis-logic.js`
+- 無料診断のデザイン：`styles/diagnosis.css`
+- 赤荻画像：`images/akaogi-guide.jpg`
 - 実績画像：`images/works/`
 - OGP画像：`images/og-image.png`
 - プライバシーポリシー：`privacy.html`
 
 外部リンクは `scripts/config.js` の1か所で管理します。未確定URLは空文字のままにし、確認後に設定してください。
+
+## 無料診断の計測
+
+GA4には `diagnosis_widget_view`、`diagnosis_open`、`diagnosis_answer`、`diagnosis_complete`、`diagnosis_result_copy`、`diagnosis_coconala_click` を送ります。既存Data Controlには互換性のある `view`、`start`、`complete`、`coconala_click` の4イベントだけを送信し、回答内容や個人情報は送信しません。
 
 ## 公開前確認
 

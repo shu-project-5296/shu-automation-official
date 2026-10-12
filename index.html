@@ -16,9 +16,12 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/shorts.css">
+  <link rel="stylesheet" href="styles/diagnosis.css">
   <script src="scripts/config.js" defer></script>
   <script src="scripts/analytics.js" defer></script>
   <script src="scripts/main.js" defer></script>
+  <script src="scripts/diagnosis-logic.js" defer></script>
+  <script src="scripts/diagnosis.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">本文へ移動</a>
@@ -34,7 +37,7 @@
       </button>
       <nav id="site-nav" class="site-nav" aria-label="メインナビゲーション" data-menu>
         <a href="#top">TOP</a><a href="#service">SERVICE</a><a href="#works">WORKS</a>
-        <a href="#about">ABOUT</a><a href="#free-check">FREE CHECK</a><a href="#news">NEWS</a>
+        <a href="#about">ABOUT</a><a href="#free-check" data-open-diagnosis>FREE CHECK</a><a href="#news">NEWS</a>
         <a class="nav-cta" href="#contact">CONTACT</a>
       </nav>
     </div>
@@ -153,7 +156,7 @@
     <section id="free-check" class="section section-shell">
       <div class="diagnosis-card">
         <div><p class="eyebrow">FREE CHECK</p><h2>その面倒なPC作業、<br>もっとラクにできる？</h2><p class="diagnosis-lead">5問・約1分で無料チェック</p><div class="tag-row"><span>Excel</span><span>CSV</span><span>転記</span><span>集計</span><span>帳票</span></div></div>
-        <div class="diagnosis-action"><div class="diagnosis-steps"><span>1</span><i></i><span>2</span><i></i><span>3</span><i></i><span>4</span><i></i><span>5</span></div><p>今の作業について選ぶだけ。改善の方向性を整理する入口としてご利用ください。</p><a class="button button-primary external-link" data-link="diagnosis" href="#contact">無料でチェックする <span aria-hidden="true">↗</span></a></div>
+        <div class="diagnosis-action"><div class="diagnosis-steps"><span>1</span><i></i><span>2</span><i></i><span>3</span><i></i><span>4</span><i></i><span>5</span></div><p>今の作業について選ぶだけ。改善の方向性を整理する入口としてご利用ください。</p><button class="button button-primary" type="button" data-open-diagnosis>無料でチェックする <span aria-hidden="true">→</span></button></div>
       </div>
     </section>
 
@@ -170,8 +173,27 @@
   </main>
 
   <footer class="site-footer">
-    <div class="footer-inner"><div><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">S</span><span>SHU AUTOMATION</span></a><p>現場の「面倒」を、使いやすい仕組みに。</p></div><div class="footer-links"><a href="#service">サービス</a><a href="#works">実績</a><a href="#free-check">無料診断</a><a class="external-link" data-link="youtube" href="https://www.youtube.com/@shu_automation/shorts">YouTube Shorts</a><a class="external-link" data-link="coconala" href="#contact">ココナラ</a><a href="privacy.html">プライバシーポリシー</a></div></div>
+    <div class="footer-inner"><div><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">S</span><span>SHU AUTOMATION</span></a><p>現場の「面倒」を、使いやすい仕組みに。</p></div><div class="footer-links"><a href="#service">サービス</a><a href="#works">実績</a><a href="#free-check" data-open-diagnosis>無料診断</a><a class="external-link" data-link="youtube" href="https://www.youtube.com/@shu_automation/shorts">YouTube Shorts</a><a class="external-link" data-link="coconala" href="#contact">ココナラ</a><a href="privacy.html">プライバシーポリシー</a></div></div>
     <div class="footer-bottom"><small>© SHU AUTOMATION</small><a href="#top">ページ上部へ ↑</a></div>
   </footer>
+
+  <aside class="diagnosis-launcher" data-diagnosis-launcher aria-label="赤荻による無料診断のご案内">
+    <div class="akaogi-bubble">まずは5問！</div>
+    <div class="akaogi-placeholder">
+      <img src="images/akaogi-guide.jpg" alt="両手で無料診断ボタンを指し示す案内役の赤荻" width="1024" height="1280">
+      <strong>赤荻</strong>
+    </div>
+    <button type="button" data-open-diagnosis>💬 無料診断はこちら</button>
+  </aside>
+
+  <dialog class="diagnosis-dialog" data-diagnosis-dialog aria-labelledby="diagnosis-title">
+    <div class="diagnosis-window">
+      <header class="diagnosis-window-header">
+        <div><span class="diagnosis-avatar" aria-hidden="true">赤</span><span><strong>赤荻</strong><small>無料診断案内</small></span></div>
+        <button type="button" data-diagnosis-close aria-label="無料診断を閉じる">×</button>
+      </header>
+      <div class="diagnosis-panel" data-diagnosis-panel aria-live="polite"></div>
+    </div>
+  </dialog>
 </body>
 </html>
