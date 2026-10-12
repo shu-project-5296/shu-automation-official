@@ -32,3 +32,111 @@
 @media(max-width:360px){.diagnosis-launcher .akaogi-placeholder,.diagnosis-launcher.is-compact .akaogi-placeholder{width:150px}.diagnosis-launcher .akaogi-placeholder img,.diagnosis-launcher.is-compact .akaogi-placeholder img{width:58px}.diagnosis-launcher .akaogi-placeholder .launcher-label,.diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-width:144px;padding:8px;font-size:.67rem}}
 @media(prefers-reduced-motion:reduce){.diagnosis-launcher{transition:none}}
 @media(max-width:620px){.hero h1{font-size:clamp(2rem,9.3vw,2.4rem);letter-spacing:-.055em}.hero h1 span{display:inline-block}}
+
+/* v6: Akaogi and the diagnosis CTA are one inseparable vertical widget.
+   The figure viewport trims only the lower torso so both fingertips sit
+   immediately above the CTA; collision avoidance moves the parent aside. */
+.diagnosis-launcher,
+.diagnosis-launcher.is-compact{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  width:176px;
+}
+.diagnosis-launcher .akaogi-bubble{
+  align-self:center;
+  margin:0 0 2px;
+}
+.diagnosis-launcher .akaogi-placeholder,
+.diagnosis-launcher.is-compact .akaogi-placeholder{
+  display:flex;
+  width:176px;
+  min-height:0;
+  margin:0;
+  padding:0;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:0;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.diagnosis-launcher .akaogi-figure,
+.diagnosis-launcher.is-compact .akaogi-figure{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:96px;
+  height:84px;
+  margin:0 auto -1px;
+  overflow:hidden;
+  pointer-events:none;
+}
+.diagnosis-launcher .akaogi-figure img,
+.diagnosis-launcher.is-compact .akaogi-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  margin:0;
+  object-fit:contain;
+  filter:drop-shadow(0 7px 10px rgba(23,35,30,.2));
+}
+.diagnosis-launcher .akaogi-placeholder .launcher-label,
+.diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:158px;
+  min-height:42px;
+  margin:0;
+  padding:9px 13px;
+  border-radius:999px;
+  background:var(--ink);
+  color:#fff;
+  box-shadow:0 9px 22px rgba(23,35,30,.22);
+  font-size:.74rem;
+  font-weight:850;
+  white-space:nowrap;
+}
+
+@media(max-width:620px){
+  .diagnosis-launcher,
+  .diagnosis-launcher.is-compact{
+    width:clamp(150px,42vw,170px);
+  }
+  .diagnosis-launcher .akaogi-bubble{
+    margin:0 0 1px;
+  }
+  .diagnosis-launcher .akaogi-placeholder,
+  .diagnosis-launcher.is-compact .akaogi-placeholder{
+    width:100%;
+  }
+  .diagnosis-launcher .akaogi-figure,
+  .diagnosis-launcher.is-compact .akaogi-figure{
+    width:64px;
+    height:58px;
+    margin-bottom:-1px;
+  }
+  .diagnosis-launcher .akaogi-placeholder .launcher-label,
+  .diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{
+    min-width:150px;
+    min-height:40px;
+    padding:8px 10px;
+    font-size:.7rem;
+  }
+}
+
+@media(max-width:360px){
+  .diagnosis-launcher,
+  .diagnosis-launcher.is-compact{width:150px}
+  .diagnosis-launcher .akaogi-figure,
+  .diagnosis-launcher.is-compact .akaogi-figure{width:60px;height:55px}
+  .diagnosis-launcher .akaogi-placeholder .launcher-label,
+  .diagnosis-launcher.is-compact .akaogi-placeholder .launcher-label{min-width:144px}
+}
