@@ -3,15 +3,11 @@
   const dialog = document.querySelector("[data-diagnosis-dialog]");
   const panel = document.querySelector("[data-diagnosis-panel]");
   const launcher = document.querySelector("[data-diagnosis-launcher]");
-  const footer = document.querySelector(".site-footer");
   if (!logic || !dialog || !panel || !launcher) return;
 
   const stateKey = "shu-diagnosis-state-v1";
   const attributionKey = "shu-automation-attribution-v1";
   const sent = new Set();
-  const compactDelay = 4200;
-  let compactTimer;
-  let scrollTimer;
   let state = { step: -1, answers: {}, complete: false };
   try {
     const saved = JSON.parse(sessionStorage.getItem(stateKey) || "null");
@@ -92,41 +88,29 @@
   }
 
   function reset() { state = { step: -1, answers: {}, complete: false }; sent.clear(); save(); render(); }
-  function setCompact(compact = true) {
-    launcher.classList.toggle("is-compact", compact);
-    if (compact) clearTimeout(compactTimer);
-  }
   function rectanglesOverlap(a, b, padding = 6) {
     return a.left < b.right + padding && a.right > b.left - padding && a.top < b.bottom + padding && a.bottom > b.top - padding;
   }
   function protectPageActions() {
     if (launcher.hidden || dialog.open) return;
     const baseBottom = innerWidth <= 620 ? 14 : 16;
-    if (footer) {
-      const footerRect = footer.getBoundingClientRect();
-      const visibleFooterHeight = Math.max(0, innerHeight - footerRect.top);
-      const maxBottom = Math.max(baseBottom, innerHeight - launcher.offsetHeight - 12);
-      const safeBottom = Math.min(Math.max(baseBottom, visibleFooterHeight + 12), maxBottom);
-      launcher.style.setProperty("--launcher-bottom", `${safeBottom}px`);
-    }
-    launcher.classList.remove("is-obscuring");
-    const launcherRect = launcher.getBoundingClientRect();
+    launcher.style.setProperty("--launcher-lift", "0px");
+    launcher.style.setProperty("--launcher-bottom", `${baseBottom}px`);
     const actions = [...document.querySelectorAll(".hero .button, .site-header a, .site-header button, .contact-card a, .site-footer a")]
       .filter((element) => !launcher.contains(element) && element.getClientRects().length);
-    const overlaps = actions.some((element) => rectanglesOverlap(launcherRect, element.getBoundingClientRect()));
-    if (overlaps && !launcher.classList.contains("is-compact")) {
-      setCompact(true);
-      requestAnimationFrame(protectPageActions);
-      return;
+    let lift = 0;
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      const launcherRect = launcher.getBoundingClientRect();
+      const overlapping = actions.filter((element) => rectanglesOverlap(launcherRect, element.getBoundingClientRect()));
+      if (!overlapping.length) break;
+      const targetTop = Math.min(...overlapping.map((element) => element.getBoundingClientRect().top));
+      const delta = Math.max(0, launcherRect.bottom - targetTop + 12);
+      if (!delta) break;
+      lift += delta;
+      launcher.style.setProperty("--launcher-lift", `${Math.min(lift, Math.max(0, innerHeight - launcher.offsetHeight - 20))}px`);
     }
-    launcher.classList.toggle("is-obscuring", overlaps);
-  }
-  function scheduleCompact() {
-    clearTimeout(compactTimer);
-    compactTimer = setTimeout(() => { setCompact(true); protectPageActions(); }, compactDelay);
   }
   function openDiagnosis() {
-    clearTimeout(compactTimer);
     launcher.hidden = true;
     if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", "");
     document.body.classList.add("diagnosis-open");
@@ -136,7 +120,6 @@
   function closeDiagnosis() {
     if (typeof dialog.close === "function") dialog.close(); else dialog.removeAttribute("open");
     launcher.hidden = false;
-    setCompact(true);
     document.body.classList.remove("diagnosis-open");
     launcher.querySelector("button")?.focus();
     requestAnimationFrame(protectPageActions);
@@ -147,12 +130,7 @@
   dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDiagnosis(); });
   dialog.addEventListener("cancel", (event) => { event.preventDefault(); closeDiagnosis(); });
   window.addEventListener("resize", protectPageActions, { passive: true });
-  window.addEventListener("scroll", () => {
-    launcher.classList.add("is-scrolling");
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => { launcher.classList.remove("is-scrolling"); protectPageActions(); }, 180);
-  }, { passive: true });
-  scheduleCompact();
+  window.addEventListener("scroll", protectPageActions, { passive: true });
   requestAnimationFrame(protectPageActions);
   track("diagnosis_widget_view", {}, "widget-view");
 })();
