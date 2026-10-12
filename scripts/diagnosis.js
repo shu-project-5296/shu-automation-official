@@ -8,6 +8,9 @@
   const stateKey = "shu-diagnosis-state-v1";
   const attributionKey = "shu-automation-attribution-v1";
   const sent = new Set();
+  const compactDelay = 4200;
+  let compactTimer;
+  let scrollTimer;
   let state = { step: -1, answers: {}, complete: false };
   try {
     const saved = JSON.parse(sessionStorage.getItem(stateKey) || "null");
@@ -88,7 +91,33 @@
   }
 
   function reset() { state = { step: -1, answers: {}, complete: false }; sent.clear(); save(); render(); }
+  function setCompact(compact = true) {
+    launcher.classList.toggle("is-compact", compact);
+    if (compact) clearTimeout(compactTimer);
+  }
+  function rectanglesOverlap(a, b, padding = 6) {
+    return a.left < b.right + padding && a.right > b.left - padding && a.top < b.bottom + padding && a.bottom > b.top - padding;
+  }
+  function protectPageActions() {
+    if (launcher.hidden || dialog.open) return;
+    launcher.classList.remove("is-obscuring");
+    const launcherRect = launcher.getBoundingClientRect();
+    const actions = [...document.querySelectorAll(".hero .button, .site-header a, .site-header button, .contact-card a, .site-footer a")]
+      .filter((element) => !launcher.contains(element) && element.getClientRects().length);
+    const overlaps = actions.some((element) => rectanglesOverlap(launcherRect, element.getBoundingClientRect()));
+    if (overlaps && !launcher.classList.contains("is-compact")) {
+      setCompact(true);
+      requestAnimationFrame(protectPageActions);
+      return;
+    }
+    launcher.classList.toggle("is-obscuring", overlaps);
+  }
+  function scheduleCompact() {
+    clearTimeout(compactTimer);
+    compactTimer = setTimeout(() => { setCompact(true); protectPageActions(); }, compactDelay);
+  }
   function openDiagnosis() {
+    clearTimeout(compactTimer);
     launcher.hidden = true;
     if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", "");
     document.body.classList.add("diagnosis-open");
@@ -98,13 +127,23 @@
   function closeDiagnosis() {
     if (typeof dialog.close === "function") dialog.close(); else dialog.removeAttribute("open");
     launcher.hidden = false;
+    setCompact(true);
     document.body.classList.remove("diagnosis-open");
     launcher.querySelector("button")?.focus();
+    requestAnimationFrame(protectPageActions);
   }
 
   document.querySelectorAll("[data-open-diagnosis]").forEach((button) => button.addEventListener("click", (event) => { event.preventDefault(); openDiagnosis(); }));
   document.querySelector("[data-diagnosis-close]")?.addEventListener("click", closeDiagnosis);
   dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDiagnosis(); });
   dialog.addEventListener("cancel", (event) => { event.preventDefault(); closeDiagnosis(); });
+  window.addEventListener("resize", protectPageActions, { passive: true });
+  window.addEventListener("scroll", () => {
+    launcher.classList.add("is-scrolling");
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => { launcher.classList.remove("is-scrolling"); protectPageActions(); }, 180);
+  }, { passive: true });
+  scheduleCompact();
+  requestAnimationFrame(protectPageActions);
   track("diagnosis_widget_view", {}, "widget-view");
 })();
