@@ -177,19 +177,18 @@
     <div class="footer-bottom"><small>© SHU AUTOMATION</small><a href="#top">ページ上部へ ↑</a></div>
   </footer>
 
-  <aside class="diagnosis-launcher" data-diagnosis-launcher aria-label="赤荻による無料診断のご案内">
+  <aside class="diagnosis-launcher" data-diagnosis-launcher aria-label="無料診断のご案内">
     <div class="akaogi-bubble">まずは5問！</div>
-    <div class="akaogi-placeholder">
-      <img src="images/akaogi-guide.jpg" alt="両手で無料診断ボタンを指し示す案内役の赤荻" width="1024" height="1280">
-      <strong>赤荻</strong>
-    </div>
+    <button class="akaogi-placeholder" type="button" data-open-diagnosis aria-label="無料診断を開く">
+      <img src="images/akaogi-guide.jpg" alt="両手で無料診断ボタンを指し示す案内役" width="1024" height="1280">
+    </button>
     <button type="button" data-open-diagnosis>💬 無料診断はこちら</button>
   </aside>
 
   <dialog class="diagnosis-dialog" data-diagnosis-dialog aria-labelledby="diagnosis-title">
     <div class="diagnosis-window">
       <header class="diagnosis-window-header">
-        <div><span class="diagnosis-avatar" aria-hidden="true">赤</span><span><strong>赤荻</strong><small>無料診断案内</small></span></div>
+        <div><span class="diagnosis-avatar" aria-hidden="true">✓</span><span><strong>無料診断</strong><small>5問・約1分</small></span></div>
         <button type="button" data-diagnosis-close aria-label="無料診断を閉じる">×</button>
       </header>
       <div class="diagnosis-panel" data-diagnosis-panel aria-live="polite"></div>

@@ -58,7 +58,7 @@
   function render() {
     if (state.complete) return renderResult();
     if (state.step < 0) {
-      panel.innerHTML = `<div class="diagnosis-intro"><span class="diagnosis-kicker">赤荻がご案内します</span><h2 id="diagnosis-title">5問で、改善の入口を整理します。</h2><p>選ぶだけ・約1分。名前やメールアドレスの入力はありません。</p><div class="diagnosis-trust"><span>✓ 無料</span><span>✓ 個人情報入力なし</span><span>✓ 結果だけでもOK</span></div><button class="diagnosis-primary" type="button" data-diagnosis-start>無料診断を始める</button></div>`;
+      panel.innerHTML = `<div class="diagnosis-intro"><span class="diagnosis-kicker">5問・約1分</span><h2 id="diagnosis-title">5問で、改善の入口を整理します。</h2><p>選ぶだけ・約1分。名前やメールアドレスの入力はありません。</p><div class="diagnosis-trust"><span>✓ 無料</span><span>✓ 個人情報入力なし</span><span>✓ 結果だけでもOK</span></div><button class="diagnosis-primary" type="button" data-diagnosis-start>無料診断を始める</button></div>`;
       panel.querySelector("[data-diagnosis-start]").addEventListener("click", () => { state = { step: 0, answers: {}, complete: false }; save(); track("diagnosis_open", {}, "open"); render(); });
       return;
     }
