@@ -16,13 +16,13 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/shorts.css">
-  <link rel="stylesheet" href="styles/diagnosis.css?v=akaogi-v7">
+  <link rel="stylesheet" href="styles/diagnosis.css?v=akaogi-v8">
   <link rel="stylesheet" href="styles/launch-video.css?v=company-launch-202610">
   <script src="scripts/config.js" defer></script>
   <script src="scripts/analytics.js" defer></script>
   <script src="scripts/main.js" defer></script>
   <script src="scripts/diagnosis-logic.js" defer></script>
-  <script src="scripts/diagnosis.js?v=akaogi-v6" defer></script>
+  <script src="scripts/diagnosis.js?v=akaogi-v8" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">本文へ移動</a>
@@ -66,12 +66,16 @@
     </section>
 
     <aside class="diagnosis-launcher" data-diagnosis-launcher aria-label="無料診断のご案内">
-      <div class="akaogi-bubble">まずは5問！</div>
+      <button class="akaogi-minimize" type="button" data-diagnosis-minimize aria-label="案内を小さくする">×</button>
+      <div class="akaogi-bubble">Excelの面倒、ありませんか？💬</div>
       <button class="akaogi-placeholder" type="button" data-open-diagnosis aria-label="無料診断を開く">
         <span class="akaogi-figure" aria-hidden="true">
           <img src="images/akaogi-guide-cutout-v2.webp" alt="" width="560" height="700">
         </span>
-        <span class="launcher-label">💬 無料診断はこちら</span>
+        <span class="launcher-label"><span aria-hidden="true">💬</span> 無料で5問診断</span>
+      </button>
+      <button class="akaogi-restore" type="button" data-diagnosis-restore aria-label="赤荻の無料診断を開く">
+        <img src="images/akaogi-guide-cutout-v2.webp" alt="" width="560" height="700" aria-hidden="true">
       </button>
     </aside>
 

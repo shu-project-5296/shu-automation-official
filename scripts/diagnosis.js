@@ -3,11 +3,14 @@
   const dialog = document.querySelector("[data-diagnosis-dialog]");
   const panel = document.querySelector("[data-diagnosis-panel]");
   const launcher = document.querySelector("[data-diagnosis-launcher]");
+  const minimizeButton = document.querySelector("[data-diagnosis-minimize]");
+  const restoreButton = document.querySelector("[data-diagnosis-restore]");
   if (!logic || !dialog || !panel || !launcher) return;
 
   const stateKey = "shu-diagnosis-state-v1";
   const attributionKey = "shu-automation-attribution-v1";
   const sent = new Set();
+  let launcherWasMinimized = false;
   let state = { step: -1, answers: {}, complete: false };
   try {
     const saved = JSON.parse(sessionStorage.getItem(stateKey) || "null");
@@ -93,9 +96,7 @@
   }
   function protectPageActions() {
     if (launcher.hidden || dialog.open) return;
-    const baseBottom = innerWidth <= 620 ? 14 : 16;
     launcher.style.setProperty("--launcher-lift", "0px");
-    launcher.style.setProperty("--launcher-bottom", `${baseBottom}px`);
     const actions = [...document.querySelectorAll(".hero .button, .site-header a, .site-header button, .contact-card a, .site-footer a")]
       .filter((element) => !launcher.contains(element) && element.getClientRects().length);
     let lift = 0;
@@ -110,7 +111,13 @@
       launcher.style.setProperty("--launcher-lift", `${Math.min(lift, Math.max(0, innerHeight - launcher.offsetHeight - 20))}px`);
     }
   }
+  function setLauncherMinimized(minimized, moveFocus = true) {
+    launcher.classList.toggle("is-minimized", minimized);
+    if (moveFocus) (minimized ? restoreButton : minimizeButton)?.focus();
+    requestAnimationFrame(protectPageActions);
+  }
   function openDiagnosis() {
+    launcherWasMinimized = launcher.classList.contains("is-minimized");
     launcher.hidden = true;
     if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", "");
     document.body.classList.add("diagnosis-open");
@@ -121,11 +128,13 @@
     if (typeof dialog.close === "function") dialog.close(); else dialog.removeAttribute("open");
     launcher.hidden = false;
     document.body.classList.remove("diagnosis-open");
-    launcher.querySelector("button")?.focus();
+    (launcherWasMinimized ? restoreButton : launcher.querySelector("[data-open-diagnosis]"))?.focus();
     requestAnimationFrame(protectPageActions);
   }
 
   document.querySelectorAll("[data-open-diagnosis]").forEach((button) => button.addEventListener("click", (event) => { event.preventDefault(); openDiagnosis(); }));
+  minimizeButton?.addEventListener("click", () => setLauncherMinimized(true));
+  restoreButton?.addEventListener("click", () => setLauncherMinimized(false));
   document.querySelector("[data-diagnosis-close]")?.addEventListener("click", closeDiagnosis);
   dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDiagnosis(); });
   dialog.addEventListener("cancel", (event) => { event.preventDefault(); closeDiagnosis(); });
